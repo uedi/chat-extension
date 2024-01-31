@@ -1,4 +1,5 @@
 import { View, StyleSheet, Text } from 'react-native'
+import Menu from './Menu'
 
 const Message = ({ message }) => {
 
@@ -15,24 +16,24 @@ const Message = ({ message }) => {
 
     return (
         <View style={styles.container(message.myMessage)}>
-            <View style={styles.messageContainer(message.myMessage)}>
-                { message.reply &&
-                    <ReplyMessage reply={message.reply} />
-                }
-                <View style={styles.messageBox(message.myMessage)}>
-                    <Text style={styles.text}>{message.text}</Text>
-                    <Text style={[styles.text, styles.date(message.myMessage)]}>{message.date}</Text>
+            <Menu>
+                <View style={styles.messageContainer(message.myMessage)}>
+                    { message.reply &&
+                        <ReplyMessage reply={message.reply} />
+                    }
+                    <View style={styles.messageBox(message.myMessage)}>
+                        <Text style={styles.text}>{message.text}</Text>
+                        <Text style={[styles.text, styles.date(message.myMessage)]}>{message.date}</Text>
+                    </View>
                 </View>
-            </View>
+            </Menu>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: myMessage => ({
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: myMessage ? 'flex-end' : 'flex-start'
+        alignSelf: myMessage ? 'flex-end' : 'flex-start'
     }),
     messageContainer: myMessage => ({
         alignItems: myMessage ? 'flex-end' : 'flex-start'

@@ -8,9 +8,7 @@ const ItemSeparator = () => (
 const Messages = ({ messages }) => {
 
     const renderItem = ({ item, index }) => (
-        <Message
-            message={item}
-        />
+        <Message message={item} />
     )
 
     return (

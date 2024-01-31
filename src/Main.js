@@ -1,8 +1,10 @@
 import { StyleSheet, SafeAreaView, StatusBar } from 'react-native'
 import Chat from './screens/Chat'
 import { routeProps } from './utils/mocks'
+import overrideColorScheme from 'react-native-override-color-scheme'
 
 const Main = () => {
+    overrideColorScheme.setScheme('dark')
     return (
         <SafeAreaView style={styles.screen}>
             <Chat route={routeProps} />
