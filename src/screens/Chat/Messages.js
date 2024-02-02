@@ -1,28 +1,49 @@
-import { View, StyleSheet, FlatList } from 'react-native'
+import { KeyboardAvoidingView, View, StyleSheet, FlatList, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import Message from './Message'
+import { useDispatch } from 'react-redux'
+import { addMessage } from '../../reducers/messagesReducer'
+import { useState, useRef } from 'react'
 
 const ItemSeparator = () => (
     <View style={{ height: 5 }} />
 )
 
-const Messages = ({ messages }) => {
+const Messages = ({ messages, contact }) => {
+    const [listRef, setListRef] = useState(useRef(null))
+    const dispatch = useDispatch()
+
+    const handleReply = (message) => {
+        const msg = { myMessage: true, reply: { message: message.text }}
+        msg.reply.sender = message.myMessage ? 'Test Dude' : contact
+        dispatch(addMessage(msg))
+    }
 
     const renderItem = ({ item, index }) => (
-        <Message message={item} />
+        <Message message={item} onReply={handleReply} />
     )
 
     return (
-        <View style={styles.container}>
-            { messages &&
-                <FlatList
-                    data={messages}
-                    ItemSeparatorComponent={ItemSeparator}
-                    renderItem={renderItem}
-                    keyExtractor={(item, index) => index}
-                    contentContainerStyle={styles.contentContainerStyle}
-                />
-            }
-        </View>
+        <KeyboardAvoidingView style={styles.container}>
+            <TouchableWithoutFeedback
+                onPress={Keyboard.dismiss}
+            >
+                <View>
+                { messages &&
+                    <FlatList
+                        ref={(ref) => setListRef(ref)}
+                        data={messages}
+                        ItemSeparatorComponent={ItemSeparator}
+                        renderItem={renderItem}
+                        keyExtractor={(item, index) => index}
+                        contentContainerStyle={styles.contentContainerStyle}
+                        onContentSizeChange={() => {
+                            listRef?.scrollToEnd({ animated: true })
+                        }}
+                    />
+                }
+                </View>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     )
 }
 

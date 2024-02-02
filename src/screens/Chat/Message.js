@@ -1,7 +1,18 @@
 import { View, StyleSheet, Text } from 'react-native'
+import Clipboard from '@react-native-clipboard/clipboard'
 import Menu from './Menu'
 
-const Message = ({ message }) => {
+const Message = ({ message, onReply }) => {
+
+    const handleReact = () => {
+        console.log('react')
+    }
+
+    const handleCopy = () => {
+        if(message?.text) {
+            Clipboard.setString(message.text)
+        }
+    }
 
     const ReplyMessage = ({ reply }) => (
         <View style={styles.replyBox}>
@@ -16,15 +27,17 @@ const Message = ({ message }) => {
 
     return (
         <View style={styles.container(message.myMessage)}>
-            <Menu>
+            <Menu onCopy={handleCopy} onReact={handleReact} onReply={() => onReply(message)}>
                 <View style={styles.messageContainer(message.myMessage)}>
                     { message.reply &&
                         <ReplyMessage reply={message.reply} />
                     }
-                    <View style={styles.messageBox(message.myMessage)}>
-                        <Text style={styles.text}>{message.text}</Text>
-                        <Text style={[styles.text, styles.date(message.myMessage)]}>{message.date}</Text>
-                    </View>
+                    { message.text && 
+                        <View style={styles.messageBox(message.myMessage)}>
+                            <Text style={styles.text}>{message.text}</Text>
+                            <Text style={[styles.text, styles.date(message.myMessage)]}>{message.date}</Text>
+                        </View>
+                    }
                 </View>
             </Menu>
         </View>

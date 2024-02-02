@@ -1,10 +1,15 @@
 import { useState } from 'react'
 import { View, StyleSheet, TextInput } from 'react-native'
+import { addMessage } from '../../reducers/messagesReducer'
+import { useDispatch } from 'react-redux'
 
 const Input = () => {
     const [newMessage, setNewMessage] = useState('')
+    const dispatch = useDispatch()
+
     const submit = () => {
-        console.log(newMessage)
+        const msg = { date: '13:37', myMessage: true, text: newMessage }
+        dispatch(addMessage(msg))        
         setNewMessage('')
     }
 

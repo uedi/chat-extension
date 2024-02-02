@@ -5,7 +5,7 @@ export const messages = [
         myMessage: true,
         reply: {
             message: 'yo biebz',
-            sender: 'Juuso Kiviaho'
+            sender: 'Test Dude'
         }
     },
     {

@@ -1,6 +1,6 @@
 import { MenuView } from '@react-native-menu/menu'
 
-const Menu = ({ children }) => {
+const Menu = ({ children, onReact, onReply, onCopy }) => {
     if(!children) {
         return null
     }
@@ -9,7 +9,14 @@ const Menu = ({ children }) => {
         <MenuView
             title='Menu'
             onPressAction={({ nativeEvent }) => {
-                console.log(JSON.stringify(nativeEvent));
+                const event = nativeEvent?.event
+                if(event === 'copy') {
+                    onCopy()
+                } else if (event === 'reply') {
+                    onReply()
+                } else if (event === 'react') {
+                    onReact()
+                }
             }}
             shouldOpenOnLongPress={true}
             actions={[
@@ -19,7 +26,7 @@ const Menu = ({ children }) => {
             },
             {
                 id: 'reply',
-                title: 'Reply',
+                title: 'Reply'
             },
             {
                 id: 'copy',

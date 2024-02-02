@@ -1,10 +1,22 @@
 import { StyleSheet, SafeAreaView, StatusBar } from 'react-native'
 import Chat from './screens/Chat'
 import { routeProps } from './utils/mocks'
-import overrideColorScheme from 'react-native-override-color-scheme'
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { messages } from './utils/mocks'
+import { setMessages } from './reducers/messagesReducer'
 
 const Main = () => {
-    overrideColorScheme.setScheme('dark')
+    const storedMessages = useSelector(state => state.messages)
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if(!storedMessages) {
+            dispatch(setMessages(messages))
+        }
+    }, [storedMessages])
+
     return (
         <SafeAreaView style={styles.screen}>
             <Chat route={routeProps} />
